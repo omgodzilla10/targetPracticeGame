@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,16 +12,30 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class TargetPractice extends ApplicationAdapter {
-    //TODO - Add javadocs for instance variables.
-    final static int START_MAX_TIME = 3;
+    //TODO - Add javadocs for allinstance variables.
+    /** The starting maximum amount of time that the player
+     * has to click the target. */
+    static final int START_MAX_TIME = 3;
     
+    /** The maximum number of strikes the user can have until
+     * the game is over. */
+    static final int MAX_STRIKES = 3;
+    
+    /** The default screen width. */
+    static final int SCREEN_X = 800;
+    
+    /** The default screen height. */
+    static final int SCREEN_Y = 480;
+    
+    /** The factor at which the difficulty is increased 
+     * throughout the game. */
+    static final double DIFF_FACTOR = 0.95;
+    
+    /** The user's current score. */
     private int score;
     
+    /** The user's current number of strikes. */
     private int strikes;
-    
-    private int screenWidth;
-    
-    private int screenHeight;
     
     private float maxTime;
     
@@ -45,11 +60,7 @@ public class TargetPractice extends ApplicationAdapter {
         mousePos = new Vector3();
         bMap = new BitmapFont();
         camera = new OrthographicCamera();
-        camera.setToOrtho(true, screenWidth, screenHeight);
-        
-        //Set screen dimensions.
-	    screenWidth = 800;
-	    screenHeight = 480;
+        camera.setToOrtho(true, SCREEN_X, SCREEN_Y);
 	    
 	    //Score and strike counters.
 	    score = 0;
@@ -94,26 +105,29 @@ public class TargetPractice extends ApplicationAdapter {
 		checkMouseClick();
 		
 		//Lose condition
-		if(strikes == 3) {
+		if(strikes == MAX_STRIKES) {
 	        Gdx.app.exit();
 	    }
 
 		batch.begin();
 		
 		//Draw the score and strikes counters to the screen.
-		bMap.draw(batch, "Score: " + score, 0, screenHeight);
-		bMap.draw(batch, "Strikes: " + strikes, 0, screenHeight - 20);
+		bMap.setColor(Color.BLUE);
+		bMap.draw(batch, "Score: " + score, 0, SCREEN_Y);
+		bMap.draw(batch, "Strikes: " + strikes, 0, SCREEN_Y - 20);
 		
 		//Draw the target to the screen.
 		batch.draw(targetTexture, target.x, target.y);
 		batch.end();
 	}
 	
-	
-
+	/**
+	 * This method sets a new random position 
+	 * for the target rectangle.
+	 * */
 	private void setNewCoords() {
-		int newXCoord = (int) (Math.random() * (screenWidth - target.width));
-		int newYCoord = (int) (Math.random() * (screenHeight - target.height));
+		int newXCoord = (int) (Math.random() * (SCREEN_X - target.width));
+		int newYCoord = (int) (Math.random() * (SCREEN_Y - target.height));
 
 		target.x = newXCoord;
 		target.y = newYCoord;
@@ -123,28 +137,36 @@ public class TargetPractice extends ApplicationAdapter {
 	 * This method is called once per frame to check
 	 * to see if the mouse has been clicked, and to see
 	 * whether or not the mouse clicked the target.
+	 * When the target is clicked, the score is incremented.
+	 * When the target is missed, the strikes counter is 
+	 * incremented.
 	 */
 	private void checkMouseClick() {
+	    //Check to see if the mouse has been clicked.
 	    if(Gdx.input.justTouched()) {
+	        
             //Store mouse position in a variable.
-            mousePos.set(Gdx.input.getX(), screenHeight - Gdx.input.getY(), 0);
+            mousePos.set(Gdx.input.getX(), SCREEN_Y - Gdx.input.getY(), 0);
             
             //Check to see if mouse is within the bounds of the rectangle.
-            if (mousePos.x >= target.x && mousePos.x <= target.x + target.width) {
-                if (mousePos.y >= target.y && mousePos.y <= target.y + target.height) {
-                    //When the player clicks the target.
-                    System.out.println("Good job!");
+            if (mousePos.x >= target.x && mousePos.x <= target.x 
+                    + target.width) {
+                
+                if (mousePos.y >= target.y && mousePos.y <= target.y 
+                        + target.height) {
+                    //Player clicks the target.
                     score++;
                     timer = 0;
                     setNewCoords();
                     
+                    /*Decrease time to click the target after every three
+                    points. */
                     if(score % 3 == 0) {
-                        maxTime *= 0.95;
+                        maxTime *= DIFF_FACTOR;
                     }
                 }
             } else {
-                //When the player misses the target.
-                System.out.println("You missed!");
+                //Player misses the target.
                 strikes++;
                 timer = 0;
                 setNewCoords();
