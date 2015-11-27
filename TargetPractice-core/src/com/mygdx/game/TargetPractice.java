@@ -112,6 +112,9 @@ public class TargetPractice extends ApplicationAdapter {
 		//Increment timer with every frame
 		timer += Gdx.graphics.getDeltaTime();
 		
+		//Check for mouse clicks.
+        checkMouseClick();
+		
 		//Check to see if time has ran out
 		if (timer > maxTime) {
 		    //Increment strikes and reset timer
@@ -121,9 +124,6 @@ public class TargetPractice extends ApplicationAdapter {
 		    //Move the target to a new location
 		    setNewCoords();
 		}
-		
-		//If mouse is clicked
-		checkMouseClick();
 		
 		//Lose condition
 		if (strikes == MAX_STRIKES) {

@@ -1,0 +1,24 @@
+LIBGDX Presentation Outline
+
+What is Libgdx?
+	- A 3rd party graphics and gaming library for Java.
+	- Used to easily code games with even a novice level understanding of Java.
+	- Cross-Platform (PC, Mac, Linux, Android, iOS, HTML5)
+	
+Functionality
+	- 2D and 3D graphics
+	- Networking
+	- Animation
+	- Particle effects
+	- OpenGL Support
+	- Built in 2D and 3D Physics Engines.
+
+LIBGDX Life cycle overview
+	- Create()
+	- Render()
+	- Resize
+	- Pause
+	- Resume
+	
+Jump into code?
+
