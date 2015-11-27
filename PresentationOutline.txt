@@ -16,9 +16,16 @@ Functionality
 LIBGDX Life cycle overview
 	- Create()
 	- Render()
-	- Resize
-	- Pause
-	- Resume
 	
-Jump into code?
+Jump into code
+	- Describe the games
+	- Play the game, show the rules.
+	- Brief overview of important variables.
+	- Create() Method.
+	- Run through Render method.
+		- Verbal pseudo-code of what's happening
+	- Other methods (checkMouseClick(), etc)
+	
+Conclusion
+	- Give out our code.
 

@@ -19,17 +19,17 @@ public class TargetPractice extends ApplicationAdapter {
     
     /** The maximum number of strikes the user can have until
      * the game is over. */
-    static final int MAX_STRIKES = 3;
+    static final int MAX_STRIKES = 5;
     
     /** The default screen width. */
-    static final int SCREEN_X = 800;
+    static final int SCREEN_X = 400;
     
     /** The default screen height. */
-    static final int SCREEN_Y = 480;
+    static final int SCREEN_Y = 400;
     
     /** The factor at which the difficulty is increased 
      * throughout the game. 1 = No change, lower is harder.*/
-    static final double DIFF_FACTOR = 0.95;
+    static final double DIFF_FACTOR = 0.92;
     
     /** The user's current score. */
     private int score;
