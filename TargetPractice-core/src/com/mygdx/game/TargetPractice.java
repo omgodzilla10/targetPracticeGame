@@ -1,5 +1,8 @@
 package com.mygdx.game;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -45,6 +48,10 @@ public class TargetPractice extends ApplicationAdapter {
      * if the target hasn't been clicked in time. */
     private float timer;
     
+    /** Used to format the timer and maxTime variables
+     * when displaying onto the screen. */
+    private NumberFormat decFormat;
+    
     /** A LIBGDX SpriteBatch object, which handles all of the 
      * drawing of textures onto the screen. */
 	private SpriteBatch batch;
@@ -77,6 +84,7 @@ public class TargetPractice extends ApplicationAdapter {
 	@Override
 	public void create () {
 	    //Initialize all instance variables
+	    decFormat = new DecimalFormat("0.#");
 	    batch = new SpriteBatch();
         mousePos = new Vector2();
         bMap = new BitmapFont();
@@ -137,6 +145,8 @@ public class TargetPractice extends ApplicationAdapter {
 		bMap.setColor(Color.BLUE);
 		bMap.draw(batch, "Score: " + score, 0, SCREEN_Y);
 		bMap.draw(batch, "Strikes: " + strikes, 0, SCREEN_Y - 20);
+		bMap.draw(batch, "Current Time: " + decFormat.format(timer)
+		+ " / " + decFormat.format(maxTime), 0, SCREEN_Y - 40);
 		
 		//Draw the target to the screen
 		batch.draw(targetTexture, target.x, target.y);
