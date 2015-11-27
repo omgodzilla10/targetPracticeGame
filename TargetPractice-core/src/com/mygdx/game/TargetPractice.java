@@ -157,6 +157,12 @@ public class TargetPractice extends ApplicationAdapter {
 		//Draw the target to the screen
 		batch.draw(targetTexture, target.x, target.y);
 		batch.end();
+		
+		score++;
+		
+		rCol = (float) ((Math.sin(1 + (score * .05)) / 6) + 0.8); //(sin(x) \ 6) + 0.8
+        gCol = (float) ((Math.sin(1 + (score * .05) - (2*(Math.PI) / 3)) / 6) + 0.8);
+        bCol = (float) ((Math.sin(1 + (score * .05) - 2*(2*(Math.PI) / 3)) / 6) + 0.8);
 	}
 	
 	/**
@@ -204,10 +210,10 @@ public class TargetPractice extends ApplicationAdapter {
                     //the +0.8 transforms the function up, so that all of the RGB values stay high
                     //(This is so the rainbow is only lighter colours, low colour values (< 0.5) 
                     //create darker colours.)
-                    
+                    /*
                     rCol = (float) ((Math.sin(1 + (score * .2)) / 6) + 0.8); //(sin(x) \ 6) + 0.8
                     gCol = (float) ((Math.sin(1 + (score * .2) - (2*(Math.PI) / 3)) / 6) + 0.8);
-                    bCol = (float) ((Math.sin(1 + (score * .2) - 2*(2*(Math.PI) / 3)) / 6) + 0.8);
+                    bCol = (float) ((Math.sin(1 + (score * .2) - 2*(2*(Math.PI) / 3)) / 6) + 0.8);*/
                     
                     /*Decrease time to click the target after every three
                     points. */
