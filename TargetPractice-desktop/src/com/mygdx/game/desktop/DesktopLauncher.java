@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "Target Practice";
 		config.width = 800;
 		config.height = 480;
+		
 		new LwjglApplication(new TargetPractice(), config);
 	}
 }

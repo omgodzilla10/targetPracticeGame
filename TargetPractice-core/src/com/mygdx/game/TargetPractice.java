@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class TargetPractice extends ApplicationAdapter {
-    //TODO - Add javadocs for allinstance variables.
     /** The starting maximum amount of time that the player
      * has to click the target. */
     static final int START_MAX_TIME = 3;
@@ -37,27 +37,48 @@ public class TargetPractice extends ApplicationAdapter {
     /** The user's current number of strikes. */
     private int strikes;
     
+    /** The amount of time the user has to click the target
+     * before gaining a strike. */
     private float maxTime;
     
+    /** A variable that holds time. Used to check to see
+     * if the target hasn't been clicked in time. */
     private float timer;
     
+    /** A LIBGDX SpriteBatch object, which handles all of the 
+     * drawing of textures onto the screen. */
 	private SpriteBatch batch;
 	
+	/** A Texture object, which is used to store the
+	 * texture for the target. */
 	private Texture targetTexture;
 	
+	/** A camera object, projects objects on the screen, and
+	 * provides an easy way to transform and rotate objects on screen, 
+	 * without having to manually manipulate matrices. */
 	private OrthographicCamera camera;
 	
+	/** A rectangle object that contains the width, height, 
+	 * and x and y coordinates. */
 	private Rectangle target;
 	
-	private Vector3 mousePos;
+	/** An object that contains two values, 
+	 * an X and a Y coordinate. */
+	private Vector2 mousePos;
 	
+	/** A LIBGDX Object that is responsible for drawing
+	 * and rendering fonts onto the screen. */
 	private BitmapFont bMap;
 	
+	/**
+	 * This is a default method extended from the
+	 * ApplicationAdapter class. The method is called
+	 * immediately when the program executes. */
 	@Override
 	public void create () {
 	    //Initialize all instance variables.
 	    batch = new SpriteBatch();
-        mousePos = new Vector3();
+        mousePos = new Vector2();
         bMap = new BitmapFont();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, SCREEN_X, SCREEN_Y);
@@ -105,7 +126,7 @@ public class TargetPractice extends ApplicationAdapter {
 		checkMouseClick();
 		
 		//Lose condition
-		if(strikes == MAX_STRIKES) {
+		if (strikes == MAX_STRIKES) {
 	        Gdx.app.exit();
 	    }
 
@@ -143,10 +164,10 @@ public class TargetPractice extends ApplicationAdapter {
 	 */
 	private void checkMouseClick() {
 	    //Check to see if the mouse has been clicked.
-	    if(Gdx.input.justTouched()) {
+	    if (Gdx.input.justTouched()) {
 	        
             //Store mouse position in a variable.
-            mousePos.set(Gdx.input.getX(), SCREEN_Y - Gdx.input.getY(), 0);
+            mousePos.set(Gdx.input.getX(), SCREEN_Y - Gdx.input.getY());
             
             //Check to see if mouse is within the bounds of the rectangle.
             if (mousePos.x >= target.x && mousePos.x <= target.x 
@@ -161,7 +182,7 @@ public class TargetPractice extends ApplicationAdapter {
                     
                     /*Decrease time to click the target after every three
                     points. */
-                    if(score % 3 == 0) {
+                    if (score % 3 == 0) {
                         maxTime *= DIFF_FACTOR;
                     }
                 }
