@@ -28,7 +28,7 @@ public class TargetPractice extends ApplicationAdapter {
     static final int SCREEN_Y = 480;
     
     /** The factor at which the difficulty is increased 
-     * throughout the game. */
+     * throughout the game. 1 = No change, lower is harder.*/
     static final double DIFF_FACTOR = 0.95;
     
     /** The user's current score. */
@@ -76,68 +76,69 @@ public class TargetPractice extends ApplicationAdapter {
 	 * immediately when the program executes. */
 	@Override
 	public void create () {
-	    //Initialize all instance variables.
+	    //Initialize all instance variables
 	    batch = new SpriteBatch();
         mousePos = new Vector2();
         bMap = new BitmapFont();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, SCREEN_X, SCREEN_Y);
 	    
-	    //Score and strike counters.
+	    //Score and strike counters
 	    score = 0;
 	    strikes = 0;
 	    
-	    //Initialize timer and maximum time.
+	    //Initialize timer and maximum time
 	    maxTime = START_MAX_TIME;
 	    timer = 0;
 	    
-		//Initialize target texture, and set a file path.
+		//Initialize target texture, and set a file path
 		targetTexture = new Texture(Gdx.files.internal("assets/target.png"));
 		
-		//Initialize target rectangle.
+		//Initialize target rectangle
 		target = new Rectangle();
 		target.width = 32;
 		target.height = 32;
 		
-		//Give the target a starting position.
+		//Give the target a starting position
 		setNewCoords();
 	}
 
 	@Override
 	public void render () {
-	    //Clear background and set color.
+	    //Clear background and set color
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		//Increment timer with every frame.
+		//Increment timer with every frame
 		timer += Gdx.graphics.getDeltaTime();
 		
 		//Check to see if time has ran out
 		if (timer > maxTime) {
-		    //Increment strikes and reset timer.
+		    //Increment strikes and reset timer
 		    strikes++;
 		    timer = 0;
 		    
-		    //Move the target to a new location.
+		    //Move the target to a new location
 		    setNewCoords();
 		}
 		
-		//If mouse is clicked.
+		//If mouse is clicked
 		checkMouseClick();
 		
 		//Lose condition
 		if (strikes == MAX_STRIKES) {
 	        Gdx.app.exit();
 	    }
-
+		
+		//Begin rendering
 		batch.begin();
 		
-		//Draw the score and strikes counters to the screen.
+		//Draw the score and strikes counters to the screen
 		bMap.setColor(Color.BLUE);
 		bMap.draw(batch, "Score: " + score, 0, SCREEN_Y);
 		bMap.draw(batch, "Strikes: " + strikes, 0, SCREEN_Y - 20);
 		
-		//Draw the target to the screen.
+		//Draw the target to the screen
 		batch.draw(targetTexture, target.x, target.y);
 		batch.end();
 	}
@@ -147,6 +148,7 @@ public class TargetPractice extends ApplicationAdapter {
 	 * for the target rectangle.
 	 * */
 	private void setNewCoords() {
+	    //Set new X and Y coordinates within the screen bounds.
 		int newXCoord = (int) (Math.random() * (SCREEN_X - target.width));
 		int newYCoord = (int) (Math.random() * (SCREEN_Y - target.height));
 
@@ -163,19 +165,19 @@ public class TargetPractice extends ApplicationAdapter {
 	 * incremented.
 	 */
 	private void checkMouseClick() {
-	    //Check to see if the mouse has been clicked.
+	    //Check to see if the mouse has been clicked
 	    if (Gdx.input.justTouched()) {
 	        
-            //Store mouse position in a variable.
+            //Store mouse position in a variable
             mousePos.set(Gdx.input.getX(), SCREEN_Y - Gdx.input.getY());
             
-            //Check to see if mouse is within the bounds of the rectangle.
+            //Check to see if mouse is within the bounds of the rectangle
             if (mousePos.x >= target.x && mousePos.x <= target.x 
                     + target.width) {
                 
                 if (mousePos.y >= target.y && mousePos.y <= target.y 
                         + target.height) {
-                    //Player clicks the target.
+                    //Player clicks the target
                     score++;
                     timer = 0;
                     setNewCoords();
@@ -187,7 +189,7 @@ public class TargetPractice extends ApplicationAdapter {
                     }
                 }
             } else {
-                //Player misses the target.
+                //Player misses the target
                 strikes++;
                 timer = 0;
                 setNewCoords();
