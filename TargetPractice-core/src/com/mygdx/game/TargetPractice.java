@@ -141,15 +141,17 @@ public class TargetPractice extends ApplicationAdapter {
 		//Begin rendering
 		batch.begin();
 		
-		//Draw the score and strikes counters to the screen
-		bMap.setColor(Color.BLUE);
-		bMap.draw(batch, "Score: " + score, 0, SCREEN_Y);
-		bMap.draw(batch, "Strikes: " + strikes, 0, SCREEN_Y - 20);
-		bMap.draw(batch, "Current Time: " + decFormat.format(timer)
-		+ " / " + decFormat.format(maxTime), 0, SCREEN_Y - 40);
-		
 		//Draw the target to the screen
 		batch.draw(targetTexture, target.x, target.y);
+		
+		//Draw the score and strikes counters to the screen
+        bMap.setColor(Color.BLACK);
+        bMap.draw(batch, "Score: " + score, 0, SCREEN_Y);
+        bMap.draw(batch, "Strikes: " + strikes + " / "
+                + MAX_STRIKES, 0, SCREEN_Y - 20);
+        bMap.draw(batch, "Current Time: " + decFormat.format(timer)
+        + " / " + decFormat.format(maxTime), 0, SCREEN_Y - 40);
+        
 		batch.end();
 	}
 	
