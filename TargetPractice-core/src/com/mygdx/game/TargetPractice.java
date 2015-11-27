@@ -34,6 +34,12 @@ public class TargetPractice extends ApplicationAdapter {
      * throughout the game. 1 = No change, lower is harder.*/
     static final double DIFF_FACTOR = 0.92;
     
+    private float rCol = 1;
+    
+    private float gCol = 1;
+    
+    private float bCol = 1;
+    
     /** The user's current score. */
     private int score;
     
@@ -114,7 +120,7 @@ public class TargetPractice extends ApplicationAdapter {
 	@Override
 	public void render () {
 	    //Clear background and set color
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(rCol, gCol, bCol, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Increment timer with every frame
@@ -191,6 +197,17 @@ public class TargetPractice extends ApplicationAdapter {
                     score++;
                     timer = 0;
                     setNewCoords();
+                    
+                    //Make annoying rainbow-y background colours that require way too much math.
+                    //BASICALLY: I'm using the equation y = (sin(x) / 6) + 0.8 (where x is score)
+                    //the division by six compreses the sin function, limiting its range of values.
+                    //the +0.8 transforms the function up, so that all of the RGB values stay high
+                    //(This is so the rainbow is only lighter colours, low colour values (< 0.5) 
+                    //create darker colours.)
+                    
+                    rCol = (float) ((Math.sin(1 + (score * .2)) / 6) + 0.8); //(sin(x) \ 6) + 0.8
+                    gCol = (float) ((Math.sin(1 + (score * .2) - (2*(Math.PI) / 3)) / 6) + 0.8);
+                    bCol = (float) ((Math.sin(1 + (score * .2) - 2*(2*(Math.PI) / 3)) / 6) + 0.8);
                     
                     /*Decrease time to click the target after every three
                     points. */
